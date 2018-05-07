@@ -20,6 +20,11 @@ namespace WebNotebook.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        static ApplicationDbContext()
+        {
+            Database.SetInitializer<ApplicationDbContext>(new AppContextInitializer());
+        }
+        public DbSet<MessageModels> Messages { get; set; }
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
@@ -28,6 +33,12 @@ namespace WebNotebook.Models
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
+        }
+    }
+    class AppContextInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
+    {
+        protected override void Seed(ApplicationDbContext db)
+        {
         }
     }
 }
