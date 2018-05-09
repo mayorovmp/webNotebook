@@ -11,27 +11,13 @@ namespace WebNotebook.Controllers
     {
         public ActionResult Index()
         {
-            using (var db = new ApplicationDbContext())
-            {
-                var message = new MessageModels() { Text = "test", UserId = 12 };
-                db.Messages.Add(message);
-                db.SaveChanges();
-            }
+            //using (var db = new ApplicationDbContext())
+            //{
+            //    var message = new MessageModels() { Text = "test", UserId = 12 };
+            //    db.Messages.Add(message);
+            //    db.SaveChanges();
+            //}
                 return View();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
         }
     }
 }
