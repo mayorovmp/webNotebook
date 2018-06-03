@@ -35,29 +35,41 @@ namespace WebNotebook.Controllers
         }
 
         // POST: MessageModels/Create
-        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
-        // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateInput(false)]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Text")] MessageModels message)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var userId = User.Identity.GetUserId();
+                if (ModelState.IsValid)
+                {
+                    var userId = User.Identity.GetUserId();
 
-                Logger.Log.Info("Создание сообщения userId=" + userId);
+                    Logger.Log.Info("Создание сообщения userId=" + userId);
 
-                var user = db.Users.FirstOrDefault(x => x.Id == userId);
-                message.User = user;
-                for (var i = 0; i < message.Text.Length; i++)
-                    if (!(message.Text[i] >= 'а' && message.Text[i] <= 'я'))
-                        message.Text = message.Text.Replace(message.Text[i], '!');
-                db.Messages.Add(message);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                    var user = db.Users.FirstOrDefault(x => x.Id == userId);
+                    message.User = user;
+                    message.Text = message.Text.Substring(0, Math.Min(message.Text.Length, 100));
+                    for (var i = 0; i < message.Text.Length; i++)
+                        if (!(message.Text[i] >= 'а' && message.Text[i] <= 'я'
+                            || message.Text[i] >= 'А' && message.Text[i] <= 'Я'
+                            || message.Text[i] == ' '
+                            || message.Text[i] == '!'
+                            || message.Text[i] == '?'
+                            || message.Text[i] == '.'
+                            || message.Text[i] == ','))
+                            message.Text = message.Text.Replace(message.Text[i], '!');
+                    db.Messages.Add(message);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
+            catch (Exception e)
+            {
 
+                Logger.Log.Error(e.Message);
+            }
             return View(message);
         }
 

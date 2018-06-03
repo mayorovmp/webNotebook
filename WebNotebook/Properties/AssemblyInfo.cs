@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 // связанных с этой сборкой.
 [assembly: AssemblyTitle("WebNotebook")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyConfiguration("1.0")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("WebNotebook")]
 [assembly: AssemblyCopyright("© , 2018")]

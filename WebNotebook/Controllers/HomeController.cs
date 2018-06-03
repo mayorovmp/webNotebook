@@ -11,12 +11,6 @@ namespace WebNotebook.Controllers
     {
         public ActionResult Index()
         {
-            //using (var db = new ApplicationDbContext())
-            //{
-            //    var message = new MessageModels() { Text = "test", UserId = 12 };
-            //    db.Messages.Add(message);
-            //    db.SaveChanges();
-            //}
                 return View();
         }
     }
